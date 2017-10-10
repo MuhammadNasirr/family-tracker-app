@@ -52,6 +52,4 @@ fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots
 node_modules
-android
-ios
 node_modules
