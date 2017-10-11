@@ -45,8 +45,8 @@ class createCircle extends Component {
         headerRight: <Icon name='md-person-add' style={{ marginRight: 10, color: '#392A62' }} />,
     }
 
-    // componentWillMount() {
-    // console.disableYellowBox = true;
+    componentWillMount() {
+    console.disableYellowBox = true;
     // AsyncStorage.getItem('Patient App', (err, result) => {
     //     if (result !== null) {
     //         let data = JSON.parse(result)
@@ -58,7 +58,7 @@ class createCircle extends Component {
     //             })
     //     }
     // })
-    // }
+    }
 
     // LoginUser = () => {
     //     if (this.state.email == '' || this.state.pass == '') {
@@ -76,6 +76,14 @@ class createCircle extends Component {
     //         this.props.loginUser(this.props, doctor)
     //     }
     // }
+    circle = () => {
+        circleName = {
+            name: this.state.name
+        }
+        console.log(circleName )
+        this.props.createCircle(circleName)
+        this.props.navigation.navigate('ShowAllCircle')
+    }
 
     render() {
         return (
@@ -88,14 +96,14 @@ class createCircle extends Component {
                 }} >
                     <TextInput
                         style={{ width: 200, height: 40, color: '#392A62' }}
-                        placeholder="Cirle Name"
+                        placeholder="Circle Name"
                         placeholderTextColor="#392A62"
-                        onChangeText={(email) => this.setState({ email })}
+                        onChangeText={(name) => this.setState({ name })}
                         underlineColorAndroid='#392A62'
-                        secureTextEntry={true}
+                        //secureTextEntry={true}
                     />
 
-                    <Button style={{ backgroundColor: '#00E676', width: 100, height: 35, marginLeft: 40 }}
+                    <Button onPress={this.circle} style={{ backgroundColor: '#00E676', width: 100, height: 35, marginLeft: 40 }}
                     // onPress={this.LoginUser}
                     >
                         <Text style={{ marginLeft: 10, color: '#392A62' }} >Create Circle</Text>

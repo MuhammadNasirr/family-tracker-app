@@ -4,7 +4,7 @@ import Signup from "./Component/Signup/Signup";
 // import HomePage from "./Components/HomePage/homePage";
 import mapView from "./Component/MapView/mapView";
 import PlaceDetails from "./Component/PlaceDetails/placeDetails";
-import Polyline from "./Component/Polyline/polyline";
+import ShowAllCircle from "./Component/ShowAllCircle/ShowAllCircle";
 import createCircle from "./Component/CreateCircle/createCircle";
 // import PatientList from "./Component/PatientList/PatientList";
 // import TabNavigation from "./Component/TabNavigation/TabNavigation";
@@ -15,9 +15,9 @@ const Naviagte = StackNavigator({
     // login: { screen: Login },
     // profile: {screen: Profile},
     // patientList: { screen: PatientList },   
-    // tabnavigation: { screen: TabNavigation },
     MapView: { screen: mapView },
     CreateCircle: { screen: createCircle },
+    AllCircle: { screen: ShowAllCircle },
     signup: { screen: Signup },
     // PlaceDetails: { screen: PlaceDetails },
     // Polyline: { screen: Polyline },

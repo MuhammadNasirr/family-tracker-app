@@ -1,7 +1,7 @@
 //import liraries
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, StatusBar, Image, TouchableOpacity, Button, TextInput, ScrollView, TouchableHighlight, AsyncStorage } from 'react-native';
-import { Container, Header, Right, Left, Body, Content, List, ListItem, Item, Input, Label } from 'native-base';
+import { Container, Header, Right, Left, Body, Content,Icon, List, ListItem, Item, Input, Label } from 'native-base';
 import { connect } from 'react-redux';
 import EIcon from 'react-native-vector-icons/Entypo';
 import FIcon from 'react-native-vector-icons/FontAwesome';
@@ -27,10 +27,10 @@ function mapDispatchToProps(dispatch) {
 }
 
 // create a component
-const endloclat = ''
+// const endloclat = ''
 // const endloclon = ''
 
-class PlaceDetails extends Component {
+class ShowAllCircle extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -39,10 +39,13 @@ class PlaceDetails extends Component {
         }
     }
     static navigationOptions = {
-        title: "Place Details",
-
+        title: 'All Circle',
+        headerStyle: { backgroundColor: '#00E676' },
+        headerTitleStyle: { color: '#392A62' },
+        headerLeft: <Icon name='ios-arrow-back' onPress={(_onNavigate) => { this._onNavigate() }} style={{ marginLeft: 10, color: '#392A62' }} />,
+        headerRight: <Icon name='ios-person' style={{ marginRight: 10, color: '#392A62' }} />,
     }
-    componentWillMount() {
+   // componentWillMount() {
         // setTimeout(() => {
         //     console.log(endloclat, "asdasdasd")
         //     // this.props.getDirections(endloclat);
@@ -50,7 +53,7 @@ class PlaceDetails extends Component {
         // }, 5000)
         // console.log(endloclat, "asdasdasd")
         // this.props.getDirections(endloclat);
-    }
+   // }
 
     // async componentDidMount() {
     //     await AsyncStorage.getItem('userLocation', (err, result) => {
@@ -99,7 +102,7 @@ class PlaceDetails extends Component {
 
                 <Content style={styles.container}>
 
-                    <ScrollView horizontal={true}>
+                    {/* <ScrollView horizontal={true}>
                         {place.photos && place.photos.length !== 0 ?
                             place.photos.map((photo, i) => {
                                 console.log('rendering Image', photo)
@@ -115,7 +118,7 @@ class PlaceDetails extends Component {
                             })
                             : null
                         }
-                    </ScrollView>
+                    </ScrollView> */}
                     {/*<View style={{ flex: 1, marginBottom: 10 }}>
 
 
@@ -210,4 +213,4 @@ const styles = StyleSheet.create({
 });
 
 //make this component available to the app
-export default connect(mapStateToProps, mapDispatchToProps)(PlaceDetails);
+export default connect(mapStateToProps, mapDispatchToProps)(ShowAllCircle);

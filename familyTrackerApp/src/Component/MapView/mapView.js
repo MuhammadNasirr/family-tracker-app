@@ -47,17 +47,17 @@ class mapView extends Component {
         headerStyle: { backgroundColor: '#00E676' },
         headerTitleStyle: { color: '#392A62' },
         // headerRight: <Button title="Info" />,
-        headerLeft:  <Icon name='home' style={{ marginLeft: 10, color: '#392A62' }} />,
+        headerLeft: <Icon name='home' style={{ marginLeft: 10, color: '#392A62' }} />,
 
 
     }
 
 
 
-    componentWillMount() {
-        navigator.geolocation.getCurrentPosition(
-            position => {
-                console.log(position.results + 'asd')
+    componentDidMount() {
+        this.watchId = navigator.geolocation.getCurrentPosition(
+            (position) => {
+                console.log(position + 'asd')
                 this.setState({
                     region: {
                         latitude: position.coords.latitude,
@@ -73,6 +73,8 @@ class mapView extends Component {
             },
             { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
         );
+        console.disableYellowBox = true
+
     }
 
 
@@ -162,7 +164,7 @@ class mapView extends Component {
                         style={{ backgroundColor: '#00E676' }}
                         position="bottomRight"
                         onPress={() => { this._onNavigate() }}>
-                        <Icon name="md-person-add" style={{color:'#392A62'}} />
+                        <Icon name="md-person-add" style={{ color: '#392A62' }} />
                         {/* <Button style={{ backgroundColor: '#34A34F' }}>
                             <Icon name="logo-whatsapp" />
                         </Button>

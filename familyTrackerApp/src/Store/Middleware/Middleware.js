@@ -46,9 +46,19 @@ class Middleware {
             dispatch(Actions.LoginAction())
         }
     }
-    static createCircle(userDetails) {
+    static createCircle(circleName) {
+        console.log(circleName.name)
         return (dispatch) => {
-            firebase.database().ref(`Users/${uid}`).set(userDetails);
+            uid = circleName.name;
+            firebase.database().ref(`Circle/${uid}`).set(circleName)
+                .then(async (user) => {
+                    console.log(user)
+                    dispatch(Actions.CreateCircleAction())
+                })
+                .catch(function (error) {
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+                });
 
         }
     }

@@ -20,10 +20,10 @@ class Actions {
             signup
         }
     }
-    static createCircle(user) {
+    static CreateCircleAction(user) {
         console.log(user)
         return {
-            type: Actions.ListSuccessfull,
+            type: Actions.CreateCircle,
             user
         }
     }

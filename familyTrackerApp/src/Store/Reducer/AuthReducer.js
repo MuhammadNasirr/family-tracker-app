@@ -24,12 +24,12 @@ function AuthReducer(state = initial_state, action) {
             console.log(action.user + 'heasd')
             return Object.assign({}, state, { CrtCrcle: action.user })
 
-        case Actions.ListDetails:
-            return Object.assign({}, state, { PlacesDetails: action.payload })
+        // case Actions.ListDetails:
+        //     return Object.assign({}, state, { PlacesDetails: action.payload })
 
-        case Actions.GetDirection:
-            console.log(action.payload)
-            return Object.assign({}, state, { DirectionDetail: action.payload })
+        // case Actions.GetDirection:
+        //     console.log(action.payload)
+        //     return Object.assign({}, state, { DirectionDetail: action.payload })
 
         default:
             return state
