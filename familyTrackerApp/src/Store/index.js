@@ -6,7 +6,7 @@ import thunk from "redux-thunk"
 const middleware = applyMiddleware(thunk)
 
 const rootReducer = combineReducers({
-    Patients: AuthReducer,
+    Reducers: AuthReducer,
     
 });
 

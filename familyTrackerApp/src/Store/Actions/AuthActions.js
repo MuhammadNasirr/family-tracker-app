@@ -1,23 +1,40 @@
 class Actions {
     static CreateCircle = "CREATECIRCLE"
-    static ListDetails = "LISTDETAILS"
-    static GetDirection = "GETDIRECTION"
+    // static ListDetails = "LISTDETAILS"
+    // static GetDirection = "GETDIRECTION"
     //   static Longitude = "Longitude"
 
     static Login = "Login"
     static Signup = "Signup"
+    static logout = "logout"
     static AllPatient = "Patient"
+    static Location = "Location"
+    static showAllGroups = "showAllGroups"
+    static UserJoinGroup = "UserJoinGroup"
+    static getUserDetail = "getUserDetail"
 
-    static LoginAction(login) {
+    static LoginAction(boolean) {
         return {
             type: Actions.Login,
-            login
+            boolean
         }
     }
     static SignupAction(signup) {
         return {
             type: Actions.Signup,
             signup
+        }
+    }
+    static UserLogout() {
+        return {
+            type: Actions.logout
+        }
+    }
+    static userLocation(value){
+        return{
+            type:Actions.Location,
+            value
+
         }
     }
     static CreateCircleAction(user) {
@@ -27,26 +44,27 @@ class Actions {
             user
         }
     }
-    static PlacesDetails(Details) {
-        console.log(Details)
+    static userAllGroups(value) {
+        console.log(value)
         return {
-            type: Actions.ListDetails,
-            payload: Details
+            type: Actions.showAllGroups,
+            data: value
         }
     }
-    static GetDirections(direction) {
-        console.log(direction)
+    static JoinGroup() {
         return {
-            type: Actions.GetDirection,
-            payload: direction
+            type: Actions.UserJoinGroup,
+
         }
     }
-    // static SignupAction(signup){
-    //     return {
-    //         type:Actions.Signup,
-    //         signup
-    //     }
-    // }
+    static UserDetail(value) {
+        return {
+            type: Actions.getUserDetail,
+            data: value
+
+        }
+    }
+   
 }
 
 export default Actions;

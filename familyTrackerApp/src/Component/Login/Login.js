@@ -19,6 +19,7 @@ function mapDispatchToProps(dispatch) {
 }
 function mapStateToProps(state) {
     return {
+        login: state.Reducers.Login
 
         // storeState: state
     }
@@ -40,20 +41,27 @@ class Login extends Component {
         header: null,
     }
 
-    componentWillMount() {
-        console.disableYellowBox = true;
-        AsyncStorage.getItem('Patient App', (err, result) => {
-            if (result !== null) {
-                let data = JSON.parse(result)
-                var email = data.email
-                var pass = data.pass
-                firebase.auth().signInWithEmailAndPassword(email, pass)
-                    .then((user) => {
-                        this.props.navigation.navigate('tabnavigation')
-                    })
-            }
-        })
-    }
+    // componentWillMount() {
+    //     console.disableYellowBox = true;
+    //     AsyncStorage.getItem('xyz', (err, result) => {
+    //         if (result !== null) {
+    //             let data = JSON.parse(result)
+    //             var email = data.email
+    //             var pass = data.pass
+    //             firebase.auth().signInWithEmailAndPassword(email, pass)
+    //                 .then((user) => {
+
+    //                     this.props.navigation.navigate('MapView')
+    //                 })
+    //         }
+    //     })
+    // }
+    // componentWillReceiveProps(prop) {
+    //     console.log(prop, "next prop")
+    //     if (!prop.login) {
+    //         prop.navigation.navigate("login")
+    //     }
+    // }
 
     LoginUser = () => {
         if (this.state.email == '' || this.state.pass == '') {
@@ -69,6 +77,7 @@ class Login extends Component {
                 pass: pass,
             }
             this.props.loginUser(this.props, doctor)
+            this.props.navigation.navigate("MapView")
         }
     }
 
@@ -99,15 +108,15 @@ class Login extends Component {
                             secureTextEntry={true}
                         />
 
-                        <Button  style={{backgroundColor: '#2C3745', width: 70, height: 35, marginLeft: 60 }} onPress={this.LoginUser}>
+                        <Button style={{ backgroundColor: '#2C3745', width: 70, height: 35, marginLeft: 60 }} onPress={this.LoginUser}>
                             <Text style={{ marginLeft: 15, color: 'white' }} >Login</Text>
                         </Button>
 
-                        <Text style={{ color: 'white', fontSize: 12, textAlign: 'center', marginTop: 10, marginRight:50 }}> Forgot your login details?<Text style={{ fontWeight: 'bold', }}> Get login help.</Text> </Text>
+                        <Text style={{ color: 'white', fontSize: 12, textAlign: 'center', marginTop: 10, marginRight: 50 }}> Forgot your login details?<Text style={{ fontWeight: 'bold', }}> Get login help.</Text> </Text>
                     </Content>
                     <Footer style={{ backgroundColor: '#2C3745', height: 40, marginBottom: 10 }}>
                         <Button bordered style={{ padding: 10, width: 240 }} onPress={() => { this.props.navigation.navigate('signup') }}>
-                            <Text style={{ marginLeft: 50,marginBottom:5, color: 'white', }} >Create an account </Text>
+                            <Text style={{ marginLeft: 50, marginBottom: 5, color: 'white', }} >Create an account </Text>
                         </Button>
                     </Footer>
 

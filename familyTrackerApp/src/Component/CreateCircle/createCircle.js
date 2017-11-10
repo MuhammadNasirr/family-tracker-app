@@ -15,12 +15,22 @@ function mapDispatchToProps(dispatch) {
         createCircle: (user) => {
             dispatch(Middleware.createCircle(user))
         },
+        logout: () => {
+            dispatch(Middleware.signoutUser())
+        },
+        joinGroup: (key) => {
+            dispatch(Middleware.joinGroup(key))
+        }
+
     }
 }
 function mapStateToProps(state) {
     return {
 
-        UserDetails: state.Patients.CrtCrcle
+        UserDetails: state.Reducers.CrtCrcle,
+        signout: state.Reducers.logout,
+        login: state.Reducers.Login
+
     }
 }
 
@@ -30,64 +40,58 @@ class createCircle extends Component {
         this.state = {
             name: '',
             email: '',
+            key: ''
             // users: []
         }
     }
 
-    _onNavigate = () => {
-        this.props.navigation.navigate('MapView');
+
+
+    static navigationOptions = ({ navigation }) => {
+        const { params = {} } = navigation.state;
+        return {
+            title: 'Create Circle',
+            headerStyle: { backgroundColor: '#00E676' },
+            headerTitleStyle: { color: '#392A62' },
+            headerRight: (<Icon name='md-log-out' onPress={params.handleLogout} style={{ marginRight: 10, color: '#392A62' }} />) // custom component
+        }
     }
-    static navigationOptions = {
-        title: 'Create Circle',
-        headerStyle: { backgroundColor: '#00E676' },
-        headerTitleStyle: { color: '#392A62' },
-        headerLeft: <Icon name='ios-arrow-back' onPress={(_onNavigate) => { this._onNavigate() }} style={{ marginLeft: 10, color: '#392A62' }} />,
-        headerRight: <Icon name='md-person-add' style={{ marginRight: 10, color: '#392A62' }} />,
+    _signout = () => {
+        this.props.logout()
+    }
+
+    componentDidMount() {
+        this.props.navigation.setParams({ handleLogout: this._signout });
     }
 
     componentWillMount() {
-    console.disableYellowBox = true;
-    // AsyncStorage.getItem('Patient App', (err, result) => {
-    //     if (result !== null) {
-    //         let data = JSON.parse(result)
-    //         var email = data.email
-    //         var pass = data.pass
-    //         firebase.auth().signInWithEmailAndPassword(email, pass)
-    //             .then((user) => {
-    //                 this.props.navigation.navigate('tabnavigation')
-    //             })
-    //     }
-    // })
+        console.disableYellowBox = true;
     }
-
-    // LoginUser = () => {
-    //     if (this.state.email == '' || this.state.pass == '') {
-    //         alert('Enter Email and Password !')
-    //     }
-    //     else {
-
-    //         var email = this.state.email;
-    //         var pass = this.state.pass;
-
-    //         var doctor = {
-    //             email: email,
-    //             pass: pass,
-    //         }
-    //         this.props.loginUser(this.props, doctor)
-    //     }
-    // }
     circle = () => {
         circleName = {
             name: this.state.name
         }
-        console.log(circleName )
+        console.log(circleName)
         this.props.createCircle(circleName)
-        this.props.navigation.navigate('ShowAllCircle')
+        this.props.navigation.navigate('AllCircle')
+    }
+    componentWillReceiveProps(prop) {
+        console.log("next props", prop)
+        if (!prop.login) {
+            prop.navigation.navigate("login")
+        }
+    }
+    joinCircle = () => {
+        const key = this.state.key
+
+        this.props.joinGroup(key)
+        this.setState({ key: '' })
+        this.props.navigation.navigate('AllCircle')
+        
     }
 
     render() {
         return (
-            // <Image source={require('../../Images/1.png')} style={styles.bgImage}>
             <Container style={styles.container}>
                 <Content style={{
                     width: 240,
@@ -100,22 +104,29 @@ class createCircle extends Component {
                         placeholderTextColor="#392A62"
                         onChangeText={(name) => this.setState({ name })}
                         underlineColorAndroid='#392A62'
-                        //secureTextEntry={true}
                     />
 
                     <Button onPress={this.circle} style={{ backgroundColor: '#00E676', width: 100, height: 35, marginLeft: 40 }}
-                    // onPress={this.LoginUser}
                     >
                         <Text style={{ marginLeft: 10, color: '#392A62' }} >Create Circle</Text>
                     </Button>
+                    <TextInput
+                        style={{ width: 200, height: 40, color: '#392A62' }}
+                        placeholder="Circle key"
+                        placeholderTextColor="#392A62"
+                        onChangeText={(text) => this.setState({ key: text })}
+                        underlineColorAndroid='#392A62'
+                    />
+                    <Button
+                        onPress={this.joinCircle}
+                        style={{ backgroundColor: '#00E676', width: 100, height: 35, marginLeft: 40, marginTop: 10 }}>
+                        <Text style={{ marginLeft: 15, color: '#392A62' }} >Join Circle</Text>
+                    </Button>
                 </Content>
             </Container>
-            // </Image>
         )
     }
 }
-
-export default connect(mapStateToProps, mapDispatchToProps)(createCircle)
 
 const styles = StyleSheet.create({
     container: {
@@ -125,3 +136,4 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
 })
+export default connect(mapStateToProps, mapDispatchToProps)(createCircle)

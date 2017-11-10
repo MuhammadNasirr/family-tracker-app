@@ -18,7 +18,7 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state) {
     return {
 
-        signup: state.Patients.Signup,
+        signup: state.Reducers.Signup,
     }
 }
 

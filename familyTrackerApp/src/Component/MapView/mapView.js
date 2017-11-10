@@ -4,25 +4,25 @@ import MapView from "react-native-maps"
 import { Container, Drawer, Header, Content, Card, Fab, CardItem, List, ListItem, Thumbnail, Left, Body, Right, Icon, Title, Input, Footer } from 'native-base';
 import { connect } from 'react-redux';
 import Middleware from '../../Store/Middleware/Middleware';
-import SideBar from '../SideBar/SideBar';
-import AppHeader from '../AppHeader/AppHeader';
-import NavigationBar from 'react-native-navbar';
 
+import NavigationBar from 'react-native-navbar';
 
 function mapDispatchToProps(dispatch) {
     return {
-        createCircle: (latitude, longitude) => {
-            dispatch(Middleware.createCircle(latitude, longitude))
+        logout: () => {
+            dispatch(Middleware.signoutUser())
         },
-        // placesDetails: (placeid, callback) => {
-        //     dispatch(Middleware.placesDetails(placeid, callback))
-        // },
+        getPosition: () => {
+            dispatch(Middleware.getCurrentLocation())
+        }
+
     }
 }
 function mapStateToProps(state) {
     return {
+        latlong: state.Reducers.region,
+        login: state.Reducers.Login
 
-        // NearbyPlaces: state.Patients.NearbyPlaces
     }
 }
 
@@ -39,25 +39,31 @@ class mapView extends Component {
                 latitudeDelta: 0.015,
                 longitudeDelta: 0.0121,
             },
+            statusBarHeight: {
+                flex: 1,
+                height: 50,
+                justifyContent: 'flex-end',
+                ...StyleSheet.absoluteFillObject,
+            },
 
         }
     }
-    static navigationOptions = {
-        title: "Family Tracker System",
-        headerStyle: { backgroundColor: '#00E676' },
-        headerTitleStyle: { color: '#392A62' },
-        // headerRight: <Button title="Info" />,
-        headerLeft: <Icon name='home' style={{ marginLeft: 10, color: '#392A62' }} />,
-
-
+    static navigationOptions = ({ navigation }) => {
+        const { params = {} } = navigation.state;
+        return {
+            title: 'Family Tracker System',
+            headerStyle: { backgroundColor: '#00E676' },
+            headerTitleStyle: { color: '#392A62' },
+            headerLeft: <Icon name='home' style={{ marginLeft: 10, color: '#392A62' }} />,
+            headerRight: (<Icon name='md-log-out' onPress={params.handleLogout} style={{ marginRight: 10, color: '#392A62' }} />) // custom component
+        }
     }
-
-
-
     componentDidMount() {
         this.watchId = navigator.geolocation.getCurrentPosition(
             (position) => {
-                console.log(position + 'asd')
+                console.log(position.coords.latitude, 'asd')
+                latitude: position.coords.latitude
+                longitude: position.coords.longitude
                 this.setState({
                     region: {
                         latitude: position.coords.latitude,
@@ -67,20 +73,41 @@ class mapView extends Component {
                         longitudeDelta: 0.0121,
                     }
                 });
+                //    let latlong = this.state.region
+                // this.props.getPosition(position.coords)
             },
+            this.props.navigation.setParams({ handleLogout: this._signout }),
             (error) => {
                 console.log(error)
             },
             { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
         );
         console.disableYellowBox = true
+        // console.log(position.coords.latitude, 'asd')
+    }
+    _signout = () => {
+        this.props.logout()
+    }
+    // componentDidMount() {
+    //     this.props.navigation.setParams({ handleLogout: this._signout });
+    // }
+    componentWillReceiveProps(prop) {
+        console.log(prop, "next prop")
+        if (!prop.login) {
+            prop.navigation.navigate("login")
+        }
+
 
     }
-
-
-
     componentWillUnmount() {
         navigator.geolocation.clearWatch(this.watchID);
+
+    }
+    componentWillMount() {
+        
+        setTimeout(() => { this.setState({ statusBarHeight: styles.map }) }, 350)
+        setTimeout(() => { this.props.getPosition() }, 300)
+        // this.props.getPosition()
     }
 
 
@@ -99,6 +126,9 @@ class mapView extends Component {
     onRegionChange = (region) => {
         this.setState({ region: region })
     }
+    onNavigate = () => {
+        this.props.navigation.navigate('AllCircle');
+    }
     _onNavigate = () => {
         this.props.navigation.navigate('CreateCircle');
     }
@@ -106,56 +136,31 @@ class mapView extends Component {
         return (
             <View
                 style={styles.container}>
-
-
-                {/*<Drawer
-                        ref={(ref) => { this.drawer = ref; }}
-                        content={<SideBar navigator={this.navigator} />}
-                        openDrawer={this.openDrawer.bind(this)}
-                        onClose={() => this.closeDrawer()} >
-                        <AppHeader
-                        />
-                    </Drawer>*/}
-
-                {/*<ScrollView >*/}
-
                 <View style={styles.view1}>
                     <MapView
                         provider="google"
-                        style={styles.map}
+                        style={this.state.statusBarHeight}
                         showsUserLocation={true}
                         followsUserLocation={true}
-                        showsCompass={false}
+                        showsCompass
                         showsPointOfInternet={false}
                         region={this.state.region}
                         onRegionChange={this.onRegionChange}
                         mapType="standard"
-                        onPress={this.onMapPress.bind(this)}
+                        //onPress={this.onMapPress.bind(this)}
                         zoomEnabled={true}
                         pitchEnabled={true}
                         showsBuildings={true}
                         showsTraffic={true}
                         showsIndoors={true}>
+                        <MapView.Marker
+                            coordinate={this.state.region}
+                            title="My Location"
+                            description="nasir"
+                        >
+                        </MapView.Marker>
                     </MapView>
                 </View>
-                {/*<View style={styles.view2}>
-                        {
-                            (this.props.NearbyPlaces) ?
-                                this.props.NearbyPlaces.map((place, i) => {
-                                    console.log(place.name)
-                                    return (
-                                        <ListItem onPress={() => { this._onPressButton(place) }} key={i} style={{ marginLeft: 10, marginRight: 10 }}>
-                                            <Thumbnail square size={80} source={{ uri: place.icon }} />
-                                            <Body style={{ marginLeft: 10, }}>
-                                                <Text>{place.name}</Text>
-                                            </Body>
-                                        </ListItem>
-                                    )
-                                })
-                                : null
-                        }
-                    </View>*/}
-
                 <View style={{ flex: 1 }}>
                     <Fab
                         active={this.state.active}
@@ -165,33 +170,17 @@ class mapView extends Component {
                         position="bottomRight"
                         onPress={() => { this._onNavigate() }}>
                         <Icon name="md-person-add" style={{ color: '#392A62' }} />
-                        {/* <Button style={{ backgroundColor: '#34A34F' }}>
-                            <Icon name="logo-whatsapp" />
-                        </Button>
-                        <Button style={{ backgroundColor: '#3B5998' }}>
-                            <Icon name="logo-facebook" />
-                        </Button>
-                        <Button disabled style={{ backgroundColor: '#DD5144' }}>
-                            <Icon name="mail" />
-                        </Button> */}
+                    </Fab>
+                    <Fab
+                        active={this.state.active}
+                        direction="up"
+                        containerStyle={{}}
+                        style={{ backgroundColor: '#00E676' }}
+                        position="bottomLeft"
+                        onPress={() => { this.onNavigate() }}>
+                        <Icon name="md-person" style={{ color: '#392A62' }} />
                     </Fab>
                 </View>
-                {/*</ScrollView>*/}
-                {/* <View style={{ flex: 1 }}>
-                    <Fab direction="left" position="topRight" /> */}
-                {/* <Fab
-                        active={this.state.active}
-                       // direction="up"
-                        //containerStyle={{}}
-                        style={{ backgroundColor: '#00E676' }}
-                        position="bottomRight"
-                        onPress={() => { this._onNavigate() }} >
-                    </Fab> */}
-                {/* <Button rounded style={{
-                        height: 40,
-                        width: 100, alignItems: 'center'
-                    }} title="Add Circle" onPress={() => { this._onNavigate() }} /> */}
-                {/* </View> */}
             </View>
         )
     }
@@ -203,103 +192,31 @@ const styles =
     {
 
         container: {
-            // position: 'absolute',
             flexDirection: "column",
-            // top: 0,
-            // left: 0,
-            // right: 0,
-            // bottom: 0,
             ...StyleSheet.absoluteFillObject,
 
             flex: 1,
             justifyContent: 'flex-end',
-            // alignItems: 'center',
         },
-        // contentContainer: {
-        //     paddingVertical: 2
-        // },
         map: {
             flex: 1,
-            height: 520,
+            height: 560,
             justifyContent: 'flex-end',
             ...StyleSheet.absoluteFillObject,
-            alignItems: 'center',
-            // position: 'absolute',
-            // height: '50%',
-            // top: 0,
-            // left: 0,
-            // right: 0,
-            // bottom: 300,
-
+            // alignItems: 'center',
         },
         button: {
             flex: 1,
             marginLeft: 130,
             marginBottom: 20,
             marginTop: 450,
-            // justifyContent: 'center',
-            // alignItems: 'center',
             height: 75,
             width: 100,
         },
-        // view2: {
-        //     flex: 2,
-        //     marginTop: 450,
-        //     // ...StyleSheet.absoluteFillObject,
-
-        //     // position: 'absolute',
-        //     // alignItems: 'left',
-
-
-        // },
         view1: {
             height: 200,
             flex: 1,
             ...StyleSheet.absoluteFillObject,
 
-        },
-        // button: {
-        //     // marginBottom: 30,
-        //     width: 260,
-        //     // alignItems: 'center',
-        //     backgroundColor: '#2196F3'
-        // },
-        // pin: {
-        //     backgroundColor: "#fffa",
-        //     justifyContent: 'center',
-        //     alignItems: 'center',
-        //     borderColor: 'black',
-        //     borderWidth: 1,
-        //     padding: 5,
-        //     borderRadius: 5
-        // },
-        // pinImage: {
-        //     width: 20,
-        //     height: 20
-        // },
-        // pinText: {
-        //     color: 'red'
-        // }
-        // ,
-        // callout: {
-        //     flex: 1,
-        //     paddingRight: 10,
-        //     paddingBottom: 10,
-        //     marginBottom: 10,
-        //     marginRight: 10
-        // },
-        // calloutPhoto: {
-        //     flex: 1,
-        //     width: 200,
-        //     height: 80
-        // },
-        // calloutTitle: {
-        //     fontSize: 16
-        // }
-
-
+        }
     }
-// export default mapView;
-
-
-

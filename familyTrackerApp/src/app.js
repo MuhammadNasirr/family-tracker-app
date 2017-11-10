@@ -13,7 +13,7 @@ var config = {
     projectId: "simple-calculator-9d3e5",
     storageBucket: "simple-calculator-9d3e5.appspot.com",
     messagingSenderId: "575649196718"
-  };
+};
 firebase.initializeApp(config);
 
 class App extends Component {
