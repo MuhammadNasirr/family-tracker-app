@@ -21,7 +21,7 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state) {
     return {
         latlong: state.Reducers.region,
-        login: state.Reducers.Login
+        logoutasd: state.Reducers.logout
 
     }
 }
@@ -33,12 +33,10 @@ class mapView extends Component {
         this.state = {
             active: 'true',
             // toggled: false,
-            region: {
-                latitude: 24.871641,
-                longitude: 67.059906,
-                latitudeDelta: 0.015,
-                longitudeDelta: 0.0121,
-            },
+            latitude: 24.871641,
+            longitude: 67.059906,
+            latitudeDelta: 0.015,
+            longitudeDelta: 0.0121,
             statusBarHeight: {
                 flex: 1,
                 height: 50,
@@ -52,10 +50,10 @@ class mapView extends Component {
         const { params = {} } = navigation.state;
         return {
             title: 'Family Tracker System',
-            headerStyle: { backgroundColor: '#00E676' },
-            headerTitleStyle: { color: '#392A62' },
-            headerLeft: <Icon name='home' style={{ marginLeft: 10, color: '#392A62' }} />,
-            headerRight: (<Icon name='md-log-out' onPress={params.handleLogout} style={{ marginRight: 10, color: '#392A62' }} />) // custom component
+            headerStyle: { backgroundColor: 'rgb(0,150,136)' },
+            headerTitleStyle: { color: '#fff' },
+            headerLeft: <Icon name='home' style={{ marginLeft: 10, color: '#fff' }} />,
+            headerRight: (<Icon name='md-log-out' onPress={params.handleLogout} style={{ marginRight: 10, color: '#fff' }} />) // custom component
         }
     }
     componentDidMount() {
@@ -65,13 +63,11 @@ class mapView extends Component {
                 latitude: position.coords.latitude
                 longitude: position.coords.longitude
                 this.setState({
-                    region: {
-                        latitude: position.coords.latitude,
-                        longitude: position.coords.longitude,
-                        altitude: 15.0444,
-                        latitudeDelta: 0.015,
-                        longitudeDelta: 0.0121,
-                    }
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude,
+                    altitude: 15.0444,
+                    latitudeDelta: 0.015,
+                    longitudeDelta: 0.0121,
                 });
                 //    let latlong = this.state.region
                 // this.props.getPosition(position.coords)
@@ -83,28 +79,33 @@ class mapView extends Component {
             { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
         );
         console.disableYellowBox = true
-        // console.log(position.coords.latitude, 'asd')
     }
     _signout = () => {
         this.props.logout()
     }
-    // componentDidMount() {
-    //     this.props.navigation.setParams({ handleLogout: this._signout });
-    // }
     componentWillReceiveProps(prop) {
-        console.log(prop, "next prop")
-        if (!prop.login) {
+
+        console.log(prop.logoutasd, "next prop")
+        if (prop.logoutasd) {
+            //alert("sasd")
             prop.navigation.navigate("login")
+
         }
-
-
+        if (prop.latlong) {
+            console.log(prop.latlong, "next prop")
+            
+            this.setState({
+                longitude: prop.latlong.longitude,
+                latitude: prop.latlong.latitude,
+            })
+        }
     }
     componentWillUnmount() {
         navigator.geolocation.clearWatch(this.watchID);
 
     }
     componentWillMount() {
-        
+
         setTimeout(() => { this.setState({ statusBarHeight: styles.map }) }, 350)
         setTimeout(() => { this.props.getPosition() }, 300)
         // this.props.getPosition()
@@ -123,9 +124,9 @@ class mapView extends Component {
     }
 
 
-    onRegionChange = (region) => {
-        this.setState({ region: region })
-    }
+    // onRegionChange = (region) => {
+    //     this.setState({ region: region })
+    // }
     onNavigate = () => {
         this.props.navigation.navigate('AllCircle');
     }
@@ -144,8 +145,13 @@ class mapView extends Component {
                         followsUserLocation={true}
                         showsCompass
                         showsPointOfInternet={false}
-                        region={this.state.region}
-                        onRegionChange={this.onRegionChange}
+                        // initialRegion={{
+                        //     latitude: this.state.latitude,
+                        //     longitude: this.state.longitude,
+                        //     latitudeDelta: this.state.latitudeDelta,
+                        //     longitudeDelta: this.state.longitudeDelta,
+                        // }}
+                        // onRegionChange={this.onRegionChange}
                         mapType="standard"
                         //onPress={this.onMapPress.bind(this)}
                         zoomEnabled={true}
@@ -154,7 +160,10 @@ class mapView extends Component {
                         showsTraffic={true}
                         showsIndoors={true}>
                         <MapView.Marker
-                            coordinate={this.state.region}
+                            coordinate={{
+                                latitude: this.state.latitude,
+                                longitude: this.state.longitude
+                            }}
                             title="My Location"
                             description="nasir"
                         >
@@ -166,19 +175,19 @@ class mapView extends Component {
                         active={this.state.active}
                         direction="up"
                         containerStyle={{}}
-                        style={{ backgroundColor: '#00E676' }}
+                        style={{ backgroundColor: 'rgb(0,150,136)' }}
                         position="bottomRight"
                         onPress={() => { this._onNavigate() }}>
-                        <Icon name="md-person-add" style={{ color: '#392A62' }} />
+                        <Icon name="md-person-add" style={{ color: '#fff' }} />
                     </Fab>
                     <Fab
                         active={this.state.active}
                         direction="up"
                         containerStyle={{}}
-                        style={{ backgroundColor: '#00E676' }}
+                        style={{ backgroundColor: 'rgb(0,150,136)' }}
                         position="bottomLeft"
                         onPress={() => { this.onNavigate() }}>
-                        <Icon name="md-person" style={{ color: '#392A62' }} />
+                        <Icon name="md-person" style={{ color: '#fff' }} />
                     </Fab>
                 </View>
             </View>

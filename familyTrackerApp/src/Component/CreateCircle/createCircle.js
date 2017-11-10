@@ -51,9 +51,12 @@ class createCircle extends Component {
         const { params = {} } = navigation.state;
         return {
             title: 'Create Circle',
-            headerStyle: { backgroundColor: '#00E676' },
-            headerTitleStyle: { color: '#392A62' },
-            headerRight: (<Icon name='md-log-out' onPress={params.handleLogout} style={{ marginRight: 10, color: '#392A62' }} />) // custom component
+            //left: (<Text style={{color: "#fff"}} />),
+            headerBackTitleStyle: {color:'#fff'},
+            //headerLeftButtonStyle: {color:'#fff'},
+            headerStyle: { backgroundColor: 'rgb(0,150,136)' },
+            headerTitleStyle: { color: '#fff' },
+            headerRight: (<Icon name='md-log-out' onPress={params.handleLogout} style={{ marginRight: 10, color: '#fff' }} />) // custom component
         }
     }
     _signout = () => {
@@ -77,7 +80,7 @@ class createCircle extends Component {
     }
     componentWillReceiveProps(prop) {
         console.log("next props", prop)
-        if (!prop.login) {
+        if (prop.signout) {
             prop.navigation.navigate("login")
         }
     }
@@ -87,7 +90,7 @@ class createCircle extends Component {
         this.props.joinGroup(key)
         this.setState({ key: '' })
         this.props.navigation.navigate('AllCircle')
-        
+
     }
 
     render() {
@@ -99,28 +102,28 @@ class createCircle extends Component {
                     marginLeft: 40
                 }} >
                     <TextInput
-                        style={{ width: 200, height: 40, color: '#392A62' }}
+                        style={{ width: 200, height: 40, color: '#fff' }}
                         placeholder="Circle Name"
-                        placeholderTextColor="#392A62"
+                        placeholderTextColor="#fff"
                         onChangeText={(name) => this.setState({ name })}
-                        underlineColorAndroid='#392A62'
+                        underlineColorAndroid='#fff'
                     />
 
-                    <Button onPress={this.circle} style={{ backgroundColor: '#00E676', width: 100, height: 35, marginLeft: 40 }}
+                    <Button onPress={this.circle} style={{ backgroundColor: 'rgb(0,150,136)', width: 100, height: 35, marginLeft: 40 }}
                     >
-                        <Text style={{ marginLeft: 10, color: '#392A62' }} >Create Circle</Text>
+                        <Text style={{ marginLeft: 10, color: '#fff' }} >Create Circle</Text>
                     </Button>
                     <TextInput
-                        style={{ width: 200, height: 40, color: '#392A62' }}
+                        style={{ width: 200, height: 40, color: '#fff' }}
                         placeholder="Circle key"
-                        placeholderTextColor="#392A62"
+                        placeholderTextColor="#fff"
                         onChangeText={(text) => this.setState({ key: text })}
-                        underlineColorAndroid='#392A62'
+                        underlineColorAndroid='#fff'
                     />
                     <Button
                         onPress={this.joinCircle}
-                        style={{ backgroundColor: '#00E676', width: 100, height: 35, marginLeft: 40, marginTop: 10 }}>
-                        <Text style={{ marginLeft: 15, color: '#392A62' }} >Join Circle</Text>
+                        style={{ backgroundColor: 'rgb(0,150,136)', width: 100, height: 35, marginLeft: 40, marginTop: 10 }}>
+                        <Text style={{ marginLeft: 15, color: '#fff' }} >Join Circle</Text>
                     </Button>
                 </Content>
             </Container>
@@ -135,5 +138,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    back: {
+        backgroundColor: '#fff',
+        color: '#fff',
+        //fontFamily: "Lato-Regular",
+    }
 })
 export default connect(mapStateToProps, mapDispatchToProps)(createCircle)

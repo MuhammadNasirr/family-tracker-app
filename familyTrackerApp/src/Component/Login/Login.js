@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-// import Button from '../../Tags/Button';
-// import Header from '../../Tags/Header';
-// import Input from '../../Tags/Input';
 import { connect } from 'react-redux';
 import Middleware from '../../Store/Middleware/Middleware';
 import { Container, Button, Content, Card, CardItem, Input, Footer } from 'native-base';
@@ -12,16 +9,14 @@ import * as firebase from "firebase";
 
 function mapDispatchToProps(dispatch) {
     return {
-        loginUser: (props, doctor) => {
-            dispatch(Middleware.loginUser(props, doctor))
+        loginUser: (user) => {
+            dispatch(Middleware.loginUser(user))
         },
     }
 }
 function mapStateToProps(state) {
     return {
         login: state.Reducers.Login
-
-        // storeState: state
     }
 }
 
@@ -56,12 +51,13 @@ class Login extends Component {
     //         }
     //     })
     // }
-    // componentWillReceiveProps(prop) {
-    //     console.log(prop, "next prop")
-    //     if (!prop.login) {
-    //         prop.navigation.navigate("login")
-    //     }
-    // }
+    componentWillReceiveProps(prop) {
+        console.log(prop, "next prop")
+        if (prop.login) {
+            prop.navigation.navigate("MapView")
+            // alert("asdasdasdasd")
+        }
+    }
 
     LoginUser = () => {
         if (this.state.email == '' || this.state.pass == '') {
@@ -72,12 +68,12 @@ class Login extends Component {
             var email = this.state.email;
             var pass = this.state.pass;
 
-            var doctor = {
+            var user = {
                 email: email,
                 pass: pass,
             }
-            this.props.loginUser(this.props, doctor)
-            this.props.navigation.navigate("MapView")
+            this.props.loginUser(user)
+           // this.props.navigation.navigate("MapView")
         }
     }
 
@@ -87,7 +83,7 @@ class Login extends Component {
                 <Container style={styles.container}>
                     <Content style={{
                         width: 240,
-                        marginTop: 300,
+                        marginTop: 200,
                         marginLeft: 40
                     }} >
                         <TextInput

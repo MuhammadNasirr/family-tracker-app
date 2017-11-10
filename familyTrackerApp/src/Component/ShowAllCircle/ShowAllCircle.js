@@ -41,9 +41,9 @@ class ShowAllCircle extends Component {
         const { params = {} } = navigation.state;
         return {
             title: 'All Circle',
-            headerStyle: { backgroundColor: '#00E676' },
-            headerTitleStyle: { color: '#392A62' },
-            headerRight: (<Icon name='md-log-out' onPress={params.handleLogout} style={{ marginRight: 10, color: '#392A62' }} />) // custom component
+            headerStyle: { backgroundColor: 'rgb(0,150,136)' },
+            headerTitleStyle: { color: '#fff' },
+            headerRight: (<Icon name='md-log-out' onPress={params.handleLogout} style={{ marginRight: 10, color: '#fff' }} />) // custom component
         }
     }
     componentWillMount() {
@@ -78,7 +78,7 @@ console.log("next props", prop)
     }
     renderGroups() {
         if (this.state.loading) {
-            return <Spinner color="#00E676" />
+            return <Spinner color="rgb(0,150,136)" />
         }
 
         return (
@@ -90,7 +90,7 @@ console.log("next props", prop)
                             console.log(obj),
 
                             <ListItem onPress={() => { this.props.navigation.navigate("CircleDetails", { joinKey: obj.JoiningCode, userDetail: obj }) }} key={ind} style={{ marginLeft: 10, marginRight: 10, marginTop: 5 }}>
-                                {/* <Thumbnail square size={80} source={{ uri: place.icon }} /> */}
+                                <Icon name='ios-people' style={{ marginLeft: 10, color: 'rgb(0,150,136)' }} />
                                 <Body style={{ marginLeft: 10, }}>
                                     <Text> {obj.circleName}</Text>
                                 </Body>

@@ -36,30 +36,30 @@ class Middleware {
                 });
         }
     }
-    static loginUser(props, docDetails) {
+    static loginUser(user) {
         return (dispatch) => {
             let auth = firebase.auth();
-            auth.signInWithEmailAndPassword(docDetails.email, docDetails.pass)
+            auth.signInWithEmailAndPassword(user.email, user.pass)
                 .then(async (user) => {
                     console.log(user, 'curent user')
                     // alert('Successfully Login!')
-                    props.navigation.navigate('MapVeiw')
                     //await AsyncStorage.removeItem('xyz');
-                    let currentUser = { email: docDetails.email, pass: docDetails.pass, _id: user.uid };
+                    let currentUser = { email: user.email, pass: user.pass, _id: user.uid };
                     await AsyncStorage.setItem('xyz', JSON.stringify(currentUser));
                     userDetails = user.uid
                     console.log(userDetails, 'uid')
+                    //props.navigation.navigate('MapVeiw')
                     //currentuser = user
                     // console.log(user + " current User")
+                    dispatch(Actions.LoginAction())
                 })
                 .catch(function (error) {
                     var errorCode = error.code;
                     var errorMesssage = error.message;
-                    alert(errorMesssage + "asd")
+                    alert(errorMesssage + "nasir")
                 })
-            console.log(docDetails, 'asdasd')
+            //  console.log(docDetails, 'asdasd')
 
-            dispatch(Actions.LoginAction(true))
         }
     }
     static signoutUser() {
@@ -69,7 +69,7 @@ class Middleware {
                 AsyncStorage.removeItem("xyz")
                     .then(() => {
                         userDetails = ''
-                        dispatch(Actions.LoginAction(false))
+                        dispatch(Actions.UserLogout())
                     })
             })
         }
@@ -82,11 +82,11 @@ class Middleware {
                     longitude: position.coords.longitude
                 }
                 AsyncStorage.getItem("xyz")
-                .then((responce) => {
-                    id = JSON.parse(responce)
-                    uid = id._id
-                    console.log("uid ", uid)
-                })
+                    .then((responce) => {
+                        id = JSON.parse(responce)
+                        uid = id._id
+                        console.log("uid ", uid)
+                    })
                 console.log("uid ", userDetails)
                 const db = firebase.database().ref(`/Users/${uid}`).child("Location")
                 db.set(latlong)
@@ -240,7 +240,7 @@ class Middleware {
                     // }
                 })
                     .then(() => {
-console.log(array)
+                        console.log(array)
                         dispatch(Actions.UserDetail(array))
                     })
             })
