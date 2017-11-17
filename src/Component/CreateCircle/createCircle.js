@@ -4,8 +4,8 @@ import React, { Component } from 'react';
 // import Input from '../../Tags/Input';
 import { connect } from 'react-redux';
 import Middleware from '../../Store/Middleware/Middleware';
-import { Container, Button, Content, Card, CardItem, Input, Footer, Icon } from 'native-base';
-import { View, Text, AsyncStorage, Image, StyleSheet, TextInput } from "react-native";
+import { Container, Content, Card, CardItem, Input, Footer, Icon } from 'native-base';
+import { View, Text, AsyncStorage, Button, Image, StyleSheet, TextInput } from "react-native";
 import * as firebase from "firebase";
 
 
@@ -52,7 +52,7 @@ class createCircle extends Component {
         return {
             title: 'Create Circle',
             //left: (<Text style={{color: "#fff"}} />),
-            headerBackTitleStyle: {color:'#fff'},
+            headerBackTitleStyle: { color: '#fff' },
             //headerLeftButtonStyle: {color:'#fff'},
             headerStyle: { backgroundColor: 'rgb(0,150,136)' },
             headerTitleStyle: { color: '#fff' },
@@ -95,53 +95,58 @@ class createCircle extends Component {
 
     render() {
         return (
-            <Container style={styles.container}>
-                <Content style={{
-                    width: 240,
-                    marginTop: 200,
-                    marginLeft: 40
-                }} >
-                    <TextInput
-                        style={{ width: 200, height: 40, color: '#fff' }}
-                        placeholder="Circle Name"
-                        placeholderTextColor="#fff"
-                        onChangeText={(name) => this.setState({ name })}
-                        underlineColorAndroid='#fff'
-                    />
+            // <Container style={styles.container}>
+            <View style={styles.container}>
+                <TextInput
+                    style={{ width: 200, height: 40, color: '#fff' }}
+                    placeholder="Circle Name"
+                    placeholderTextColor="#fff"
+                    onChangeText={(name) => this.setState({ name })}
+                    underlineColorAndroid='#fff'
+                />
 
-                    <Button onPress={this.circle} style={{ backgroundColor: 'rgb(0,150,136)', width: 100, height: 35, marginLeft: 40 }}
-                    >
-                        <Text style={{ marginLeft: 10, color: '#fff' }} >Create Circle</Text>
-                    </Button>
-                    <TextInput
-                        style={{ width: 200, height: 40, color: '#fff' }}
-                        placeholder="Circle key"
-                        placeholderTextColor="#fff"
-                        onChangeText={(text) => this.setState({ key: text })}
-                        underlineColorAndroid='#fff'
-                    />
-                    <Button
-                        onPress={this.joinCircle}
-                        style={{ backgroundColor: 'rgb(0,150,136)', width: 100, height: 35, marginLeft: 40, marginTop: 10 }}>
-                        <Text style={{ marginLeft: 15, color: '#fff' }} >Join Circle</Text>
-                    </Button>
-                </Content>
-            </Container>
+                <Button onPress={this.circle}
+                    title='Create Circle'
+                    color='rgb(0,150,136)'
+                    style={{ width: 100, height: 35 }}
+                />
+
+                <TextInput
+                    style={{ width: 200, height: 40, color: '#fff' }}
+                    placeholder="Circle key"
+                    placeholderTextColor="#fff"
+                    onChangeText={(text) => this.setState({ key: text })}
+                    underlineColorAndroid='#fff'
+                />
+                <Button
+                    onPress={this.joinCircle}
+                    title='Join Circle'
+                    color='rgb(0,150,136)'
+                    style={{ width: 100, height: 35, marginTop: 10 }} />
+            </View>
+            // </Container>
         )
     }
 }
 
+export default connect(mapStateToProps, mapDispatchToProps)(createCircle)
 const styles = StyleSheet.create({
     container: {
         backgroundColor: "grey",
-        flex: 3,
+        flex: 1,
+        flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
     },
+    // content: {
+    //     flex: 1,
+    //     flexDirection: 'column',
+    //     justifyContent: 'center',
+    //     alignItems: 'center',
+    // },
     back: {
         backgroundColor: '#fff',
         color: '#fff',
         //fontFamily: "Lato-Regular",
     }
 })
-export default connect(mapStateToProps, mapDispatchToProps)(createCircle)

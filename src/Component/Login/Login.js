@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Middleware from '../../Store/Middleware/Middleware';
-import { Container, Button, Content, Card, CardItem, Input, Footer } from 'native-base';
-import { View, Text, AsyncStorage, Image, StyleSheet, TextInput } from "react-native";
+import { Container,  Content, Card, CardItem, Input, Footer } from 'native-base';
+import { View, Text, AsyncStorage, Image,Button, StyleSheet, TextInput } from "react-native";
 import * as firebase from "firebase";
 
 
@@ -80,12 +80,8 @@ class Login extends Component {
     render() {
         return (
             <Image source={require('../../Images/2.jpg')} style={styles.bgImage}>
-                <Container style={styles.container}>
-                    <Content style={{
-                        width: 240,
-                        marginTop: 200,
-                        marginLeft: 40
-                    }} >
+                <View style={styles.container}>
+
                         <TextInput
                             style={{ width: 200, height: 40, color: '#fff' }}
                             placeholder="Email Address"
@@ -104,19 +100,27 @@ class Login extends Component {
                             secureTextEntry={true}
                         />
 
-                        <Button style={{ backgroundColor: '#2C3745', width: 70, height: 35, marginLeft: 60 }} onPress={this.LoginUser}>
-                            <Text style={{ marginLeft: 15, color: 'white' }} >Login</Text>
-                        </Button>
+                        <Button style={{               
+                        width: 70, height: 35}}
+                        color='#2C3745'
+                        title='Login'
+                        onPress={this.LoginUser}/>
 
-                        <Text style={{ color: 'white', fontSize: 12, textAlign: 'center', marginTop: 10, marginRight: 50 }}> Forgot your login details?<Text style={{ fontWeight: 'bold', }}> Get login help.</Text> </Text>
-                    </Content>
+
+                        <Text style={{ color: 'white', fontSize: 12,  marginTop: 10,}}> Forgot your login details?<Text style={{ fontWeight: 'bold', }}> Get login help.</Text> </Text>
                     <Footer style={{ backgroundColor: '#2C3745', height: 40, marginBottom: 10 }}>
-                        <Button bordered style={{ padding: 10, width: 240 }} onPress={() => { this.props.navigation.navigate('signup') }}>
-                            <Text style={{ marginLeft: 50, marginBottom: 5, color: 'white', }} >Create an account </Text>
-                        </Button>
+                        <Button bordered 
+                        title='Create an account'
+                        color='#2C3745'
+                        titleFontSize='10px'
+                        style={{ padding: 10, width: 240 }} 
+                        onPress={() => { this.props.navigation.navigate('signup') }}
+                        />
+                            {/* <Text style={{ marginLeft: 50, marginBottom: 5, color: 'white', }} >Create an account </Text>
+                        </Button> */}
                     </Footer>
 
-                </Container>
+                </View>
             </Image>
         )
     }
@@ -126,7 +130,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(Login)
 
 const styles = StyleSheet.create({
     container: {
-        flex: 3,
+        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
     },
