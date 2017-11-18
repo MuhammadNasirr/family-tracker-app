@@ -70,7 +70,7 @@ console.log("next props", prop)
 
             this.state.groups = prop.allCircle
         }
-        if (!prop.login) {
+        if (prop.signout) {
             prop.navigation.navigate("login")
         }
 

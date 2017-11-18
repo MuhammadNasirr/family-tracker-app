@@ -85,7 +85,7 @@ class mapView extends Component {
     }
     componentWillReceiveProps(prop) {
 
-        console.log(prop.logoutasd, "next prop")
+        console.log(prop, "next prop")
         if (prop.logoutasd) {
             //alert("sasd")
             prop.navigation.navigate("login")
@@ -101,7 +101,8 @@ class mapView extends Component {
         }
     }
     componentWillUnmount() {
-        navigator.geolocation.clearWatch(this.watchID);
+        watchId = navigator.geolocation.clearWatch(this.watchID);
+        console.log(watchId)
 
     }
     componentWillMount() {

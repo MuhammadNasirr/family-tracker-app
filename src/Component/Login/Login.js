@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Middleware from '../../Store/Middleware/Middleware';
-import { Container,  Content, Card, CardItem, Input, Footer } from 'native-base';
-import { View, Text, AsyncStorage, Image,Button, StyleSheet, TextInput } from "react-native";
+import { Container, Content, Card, CardItem, Input, Footer } from 'native-base';
+import { View, Text, AsyncStorage, Image, Button, StyleSheet, TextInput } from "react-native";
 import * as firebase from "firebase";
 
 
@@ -36,21 +36,24 @@ class Login extends Component {
         header: null,
     }
 
-    // componentWillMount() {
-    //     console.disableYellowBox = true;
-    //     AsyncStorage.getItem('xyz', (err, result) => {
-    //         if (result !== null) {
-    //             let data = JSON.parse(result)
-    //             var email = data.email
-    //             var pass = data.pass
-    //             firebase.auth().signInWithEmailAndPassword(email, pass)
-    //                 .then((user) => {
-
-    //                     this.props.navigation.navigate('MapView')
-    //                 })
-    //         }
-    //     })
-    // }
+    componentWillMount() {
+        console.disableYellowBox = true;
+        AsyncStorage.getItem('xyz', (err, result) => {
+            if (result !== null) {
+                let data = JSON.parse(result)
+                console.log(data , 'async storage')
+                var email = data.email
+                var pass = data.pass
+                var user = {email,pass}
+                // firebase.auth().signInWithEmailAndPassword(email, pass)
+                //     .then((user) => {
+                //         console.log(user)
+                //         // this.props.navigation.navigate('MapView')
+                //     })
+                        this.props.loginUser(user)
+            }
+        })
+    }
     componentWillReceiveProps(prop) {
         console.log(prop, "next prop")
         if (prop.login) {
@@ -73,7 +76,7 @@ class Login extends Component {
                 pass: pass,
             }
             this.props.loginUser(user)
-           // this.props.navigation.navigate("MapView")
+            // this.props.navigation.navigate("MapView")
         }
     }
 
@@ -82,45 +85,47 @@ class Login extends Component {
             <Image source={require('../../Images/2.jpg')} style={styles.bgImage}>
                 <View style={styles.container}>
 
-                        <TextInput
-                            style={{ width: 200, height: 40, color: '#fff' }}
-                            placeholder="Email Address"
-                            placeholderTextColor="white"
-                            onChangeText={(email) => this.setState({ email })}
-                            underlineColorAndroid='white'
-                            required
-                        />
+                    <TextInput
+                        style={{ width: 200, height: 40, color: '#fff' }}
+                        placeholder="Email Address"
+                        placeholderTextColor="white"
+                        onChangeText={(email) => this.setState({ email })}
+                        underlineColorAndroid='white'
+                        required
+                    />
 
-                        <TextInput
-                            style={{ width: 200, height: 40, color: '#fff' }}
-                            placeholder="Password"
-                            placeholderTextColor="white"
-                            onChangeText={(pass) => this.setState({ pass })}
-                            underlineColorAndroid='white'
-                            secureTextEntry={true}
-                        />
+                    <TextInput
+                        style={{ width: 200, height: 40, color: '#fff' }}
+                        placeholder="Password"
+                        placeholderTextColor="white"
+                        onChangeText={(pass) => this.setState({ pass })}
+                        underlineColorAndroid='white'
+                        secureTextEntry={true}
+                    />
 
-                        <Button style={{               
-                        width: 70, height: 35}}
+                    <Button style={{
+                        width: 70, height: 35
+                    }}
                         color='#2C3745'
                         title='Login'
-                        onPress={this.LoginUser}/>
+                        onPress={this.LoginUser} />
 
 
-                        <Text style={{ color: 'white', fontSize: 12,  marginTop: 10,}}> Forgot your login details?<Text style={{ fontWeight: 'bold', }}> Get login help.</Text> </Text>
-                    <Footer style={{ backgroundColor: '#2C3745', height: 40, marginBottom: 10 }}>
-                        <Button bordered 
+                    <Text style={{ color: 'white', fontSize: 12, marginTop: 10, }}> Forgot your login details?<Text style={{ fontWeight: 'bold', }}> Get login help.</Text> </Text>
+                </View>
+                <Footer style={{ justifyContent: 'flex-end', backgroundColor: '#2C3745', height: 40, marginBottom: 10 }}>
+                    <Button bordered
                         title='Create an account'
                         color='#2C3745'
                         titleFontSize='10px'
-                        style={{ padding: 10, width: 240 }} 
+                        style={{ padding: 10, width: 240 }}
                         onPress={() => { this.props.navigation.navigate('signup') }}
-                        />
-                            {/* <Text style={{ marginLeft: 50, marginBottom: 5, color: 'white', }} >Create an account </Text>
+                    />
+                    {/* <Text style={{ marginLeft: 50, marginBottom: 5, color: 'white', }} >Create an account </Text>
                         </Button> */}
-                    </Footer>
+                </Footer>
 
-                </View>
+
             </Image>
         )
     }

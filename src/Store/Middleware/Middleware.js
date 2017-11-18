@@ -36,15 +36,16 @@ class Middleware {
                 });
         }
     }
-    static loginUser(user) {
+    static loginUser(users) {
+        console.log(users)
         return (dispatch) => {
             let auth = firebase.auth();
-            auth.signInWithEmailAndPassword(user.email, user.pass)
+            auth.signInWithEmailAndPassword(users.email, users.pass)
                 .then(async (user) => {
                     console.log(user, 'curent user')
                     // alert('Successfully Login!')
                     //await AsyncStorage.removeItem('xyz');
-                    let currentUser = { email: user.email, pass: user.pass, _id: user.uid };
+                    let currentUser = { email: users.email, pass: users.pass, _id: user.uid };
                     await AsyncStorage.setItem('xyz', JSON.stringify(currentUser));
                     userDetails = user.uid
                     console.log(userDetails, 'uid')
